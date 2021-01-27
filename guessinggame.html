@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gussing Game</title>
+</head>
+
+<body>
+
+    <script>
+        let promises = () => {
+            new Promise(function(resolve, reject) {
+                let number = Number(window.prompt("Enter number between 1 to 6"));
+                let points;
+                let randomnumber = Math.floor((Math.random() * 6) + 1);
+
+
+                if (number == null || isNaN(number) || (number < 1) || number > 6) {
+                    reject(new Error("Enter correct number"));
+
+                } else if (number != null) {
+                    if (number == randomnumber) {
+                        resolve({
+                            "points": 2,
+                            "randomnumber": randomnumber
+                        });
+                    } else if ((number - randomnumber) == 1 || (number - randomnumber) == -1) {
+                        resolve({
+                            "points": 1,
+                            "randomnumber": randomnumber
+                        });
+                    } else {
+                        resolve({
+                            "points": 0,
+                            "randomnumber": randomnumber
+                        });
+
+                    }
+                }
+
+            }).then(
+                (result) => {
+                    let resume = confirm(`Your points ${result.points}  and ${result.randomnumber} Do you want to continue?`);
+
+
+                    if (resume == true) {
+                        promises();
+
+                    }
+
+                },
+                (error) => {
+                    let restart = confirm(error);
+                    if (restart == true) {
+                        setTimeout(() => {
+
+                            promises();
+
+                        }, 500)
+                    }
+
+                }
+            );
+
+
+        };
+        promises();
+        //console.log(promises);
+    </script>
+</body>
+
+</html>
